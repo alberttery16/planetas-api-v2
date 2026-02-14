@@ -1,6 +1,6 @@
 
 const http = require("http");
-const app = require("../app"); // <- si app.js está en la raíz y test/ dentro, esto está bien
+const app = require("../app");
 
 let server;
 const PORT = 3000;
@@ -15,7 +15,7 @@ function getJSON(path) {
         res.on("end", () => {
           resolve({
             statusCode: res.statusCode,
-            body: JSON.parse(data),
+            body: data ? JSON.parse(data) : null,
           });
         });
       })
@@ -31,15 +31,14 @@ afterAll((done) => {
   server.close(done);
 });
 
-test("🧪 Test estricto /planetas", async () => {
+test("✅ /sistema devuelve Mercurio, Venus y Tierra con sus lunas", async () => {
   const esperado = [
-    { nombre: "Mercurio", orden: 1, tipo: "Rocoso" },
-    { nombre: "Venus", orden: 2, tipo: "Rocoso" },
-    { nombre: "Tierra", orden: 3, tipo: "Rocoso" },
+    { nombre: "Mercurio", tipo: "Rocoso", lunas: [] },
+    { nombre: "Venus", tipo: "Rocoso", lunas: [] },
+    { nombre: "Tierra", tipo: "Rocoso", lunas: ["Luna"] },
   ];
 
-  const res = await getJSON("/planetas");
-
+  const res = await getJSON("/sistema?planetas=mercurio,venus,tierra");
   expect(res.statusCode).toBe(200);
-  expect(res.body).toEqual(esperado); // igualdad estricta (sin campos extra)
+  expect(res.body).toEqual(esperado); // estricto
 });
