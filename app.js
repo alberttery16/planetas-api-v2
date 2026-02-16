@@ -7,6 +7,7 @@ const DB = {
   mercurio: { nombre: "Mercurio", tipo: "Rocoso", lunas: [] },
   venus: { nombre: "Venus", tipo: "Rocoso", lunas: [] },
   tierra: { nombre: "Tierra", tipo: "Rocoso", lunas: ["Luna"] },
+  marte: { nombre: "Marte", tipo: "Rocoso", lunas: ["Fobos, Deimos"] },
 };
 
 function norm(s) {
